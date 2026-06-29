@@ -19,6 +19,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', sans-serif; }
     body { background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
     
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0c0c0e; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
     .header { 
       background: var(--header); 
       padding: 15px 30px; 
@@ -31,69 +36,135 @@
       border-bottom: 1px solid var(--border); 
       backdrop-filter: blur(12px); 
     }
-    .header .logo { font-size: 24px; font-weight: 900; color: var(--primary); cursor: pointer; text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); }
+    .header .logo { 
+      font-size: 24px; 
+      font-weight: 900; 
+      color: var(--primary); 
+      cursor: pointer; 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      text-shadow: 0 0 15px var(--primary-glow);
+    }
     .search-bar { flex: 1; margin: 0 40px; max-width: 500px; position: relative; }
-    .search-bar input { width: 100%; padding: 12px 20px 12px 45px; border: 1px solid var(--border); border-radius: 30px; background: rgba(30, 30, 35, 0.6); color: white; transition: 0.3s; }
-    .search-bar input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px var(--primary-glow); }
+    .search-bar input { 
+      width: 100%; 
+      padding: 12px 20px 12px 45px; 
+      border: 1px solid var(--border); 
+      border-radius: 30px; 
+      background: rgba(30, 30, 35, 0.6); 
+      color: white; 
+      font-size: 14px; 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .search-bar input:focus { 
+      border-color: var(--primary); 
+      outline: none; 
+      box-shadow: 0 0 15px var(--primary-glow);
+      background: rgba(30, 30, 35, 0.9);
+    }
     .search-bar i { position: absolute; left: 18px; top: 15px; color: #a1a1aa; }
     .header-right { display: flex; align-items: center; gap: 20px; }
     
     .nav-btn { background: none; border: 1px solid var(--border); color: #fff; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
-    .nav-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
-    .menu-btn { font-size: 24px; cursor: pointer; color: var(--primary); }
+    .nav-btn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+    .menu-btn { font-size: 24px; cursor: pointer; color: var(--primary); transition: 0.2s; }
+    .menu-btn:hover { transform: scale(1.1); }
 
-    .sidebar { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: rgba(15, 15, 20, 0.98); padding: 30px 20px; transition: right 0.3s; z-index: 1000; overflow-y: auto; border-left: 1px solid var(--border); }
+    .sidebar { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: rgba(15, 15, 20, 0.98); padding: 30px 20px; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; overflow-y: auto; border-left: 1px solid var(--border); backdrop-filter: blur(20px); }
     .sidebar.open { right: 0; }
-    .sidebar h3 { font-size: 20px; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; }
-    .sidebar a { display: flex; align-items: center; gap: 12px; color: white; padding: 12px 15px; text-decoration: none; margin: 8px 0; border-radius: 8px; transition: 0.2s; }
-    .sidebar a:hover { background: rgba(229, 9, 20, 0.1); color: var(--primary); }
-    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; display: none; }
+    .sidebar h3 { font-size: 20px; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; }
+    .sidebar a { display: flex; align-items: center; gap: 12px; color: white; padding: 12px 15px; text-decoration: none; margin: 8px 0; border-radius: 8px; font-size: 15px; font-weight: bold; transition: 0.2s; }
+    .sidebar a:hover { background: rgba(229, 9, 20, 0.1); color: var(--primary); padding-left: 20px; }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; display: none; backdrop-filter: blur(4px); }
     .overlay.show { display: block; }
 
-    .section-title { padding: 40px 30px 10px 30px; font-size: 26px; text-transform: uppercase; color: #fff; font-weight: 800; }
+    .section-title { padding: 40px 30px 10px 30px; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; color: #fff; font-weight: 800; position: relative; }
     .section-title span { color: var(--primary); }
     .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; padding: 20px 30px; }
     
-    .post-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
+    .post-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .post-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 25px var(--primary-glow); }
-    .post-card img { width: 100%; height: 260px; object-fit: cover; }
-    .post-card .category-tag { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; }
+    .post-card img { width: 100%; height: 260px; object-fit: cover; transition: 0.4s; }
+    .post-card:hover img { transform: scale(1.05); }
+    .post-card .category-tag { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
     .post-card .name { padding: 15px; font-size: 14px; text-align: center; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .pagination-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 30px auto; padding-bottom: 30px; }
 
-    .detail-page { display: none; padding: 40px 30px; max-width: 1100px; margin: 40px auto; background: rgba(22, 22, 26, 0.8); border-radius: 16px; border: 1px solid var(--border); }
+    .detail-page { display: none; padding: 40px 30px; max-width: 1100px; margin: 40px auto; background: rgba(22, 22, 26, 0.8); border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
     .detail-page.active { display: block; }
-    .back-btn { background: none; color: var(--primary); border: 1px solid var(--border); padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; margin-bottom: 30px; font-weight: bold; }
-    .back-btn:hover { background: var(--primary); color: white; }
-    
+    .back-btn { background: none; color: var(--primary); border: 1px solid var(--border); padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; margin-bottom: 30px; font-weight: bold; transition: 0.2s; }
+    .back-btn:hover { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
     .detail-header { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; }
-    .detail-header img { width: 260px; border-radius: 12px; border: 1px solid var(--border); }
+    .detail-header img { width: 260px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
     .detail-info { flex: 1; min-width: 300px; }
-    .detail-info h2 { font-size: 38px; margin-bottom: 20px; color: var(--primary); font-weight: 900; }
+    .detail-info h2 { font-size: 38px; margin-bottom: 20px; color: var(--primary); font-weight: 900; letter-spacing: -0.5px; text-shadow: 0 0 15px var(--primary-glow); }
     .detail-info p { margin-bottom: 14px; font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+    .detail-info p strong { color: white; }
     
     .episodes { margin-top: 40px; background: rgba(15, 15, 20, 0.6); padding: 30px; border-radius: 12px; border: 1px solid var(--border); }
-    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
-    .episodes button { background: #1f1f23; color: white; border: 1px solid var(--border); padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-    .episodes button:hover { background: var(--primary); transform: translateY(-3px); }
+    .episodes h3 { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 25px; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+    .episodes button { background: #1f1f23; color: white; border: 1px solid var(--border); padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: all 0.2s; }
+    .episodes button:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px var(--primary-glow); }
 
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; z-index: 2000; padding: 20px; backdrop-filter: blur(8px); }
     .modal.active { display: flex; }
-    .modal-box { background: #121214; border: 1px solid var(--border); padding: 40px; border-radius: 16px; text-align: center; width: 100%; max-width: 440px; position: relative; }
-    .modal-box h3 { margin-bottom: 15px; color: var(--primary); font-size: 24px; }
-    .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
-    .modal-box input { width: 100%; padding: 14px; margin-bottom: 15px; background: #1a1a1f; border: 1px solid var(--border); color: white; border-radius: 8px; text-align: center; }
-    .modal-box button { background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
-    .modal-box .secondary-btn { background: #27272a; border: 1px solid var(--border); margin-top: 8px; }
-    .close-modal { position: absolute; top: 18px; right: 18px; font-size: 24px; cursor: pointer; color: #777; }
+    .modal-box { background: #121214; border: 1px solid var(--border); padding: 40px; border-radius: 16px; text-align: center; width: 100%; max-width: 440px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+    .modal-box h3 { margin-bottom: 15px; color: var(--primary); font-size: 24px; font-weight: 800; }
+    .modal-box p { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 25px; }
+    .modal-box input { width: 100%; padding: 14px; margin-bottom: 15px; background: #1a1a1f; border: 1px solid var(--border); color: white; border-radius: 8px; text-align: center; font-size: 15px; transition: 0.3s; }
+    .modal-box input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); }
+    .modal-box button { background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; margin: 8px 0; cursor: pointer; font-weight: bold; font-size: 14px; width: 100%; transition: 0.2s; }
+    .modal-box button:hover { background: #b8070e; box-shadow: 0 0 12px var(--primary-glow); }
+    .modal-box .secondary-btn { background: #27272a; border: 1px solid var(--border); }
+    .modal-box .secondary-btn:hover { background: #3f3f46; }
+    .close-modal { position: absolute; top: 18px; right: 18px; font-size: 24px; cursor: pointer; color: #777; transition: 0.2s; }
+    .close-modal:hover { color: white; }
 
+    /* HIGHLY OPTIMIZED MOBILE LAYOUT */
     @media (max-width: 768px) {
-      .header { padding: 12px 15px; }
-      .search-bar { margin: 0 10px; }
+      .header { 
+        padding: 12px 15px; 
+        flex-wrap: wrap; 
+        gap: 12px;
+      }
+      .header .logo {
+        font-size: 20px;
+      }
+      .search-bar { 
+        order: 3; 
+        margin: 0; 
+        max-width: 100%; 
+        width: 100%; 
+        flex: 1 1 100%; 
+      }
+      .header-right { 
+        gap: 12px; 
+      }
+      /* Compact responsive Free Premium Button on mobile */
+      .header-right .nav-btn { 
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px; 
+        font-size: 12px; 
+        border-radius: 15px;
+      }
       .posts-grid { grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 15px; padding: 15px; }
       .post-card img { height: 190px; }
+      .post-card .name { padding: 10px; font-size: 13px; }
       .detail-page { padding: 20px 15px; margin: 15px; }
+      .detail-header { gap: 20px; justify-content: center; }
+      .detail-header img { width: 180px; }
+      .detail-info { text-align: center; }
+      .detail-info h2 { font-size: 28px; }
+      .episodes { padding: 20px 15px; }
+      .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+      
+      .modal-box {
+        padding: 25px 15px;
+      }
     }
   </style>
 </head>
@@ -143,7 +214,6 @@
     let currentFilteredPosts = [];
     let settings = {};
     
-    // Pagination state tracker
     let currentPage = 1;
     const postsPerPage = 6;
 
@@ -155,7 +225,6 @@
           allPosts = data;
           currentFilteredPosts = data;
           
-          // Check deep link hash on startup (Ex: index.html#detail-postId)
           const hash = window.location.hash;
           if (hash && hash.startsWith("#detail-")) {
             const hashId = hash.replace("#detail-", "");
@@ -178,7 +247,6 @@
       }
     }
 
-    // Hardware/Browser back button trigger state event router
     window.addEventListener("popstate", function(event) {
       if (event.state && event.state.page === "detail") {
         renderDetailPage(event.state.postId);
@@ -198,7 +266,6 @@
         return;
       }
 
-      // Slicing current active posts array by index pointer range
       const startIndex = (currentPage - 1) * postsPerPage;
       const endIndex = startIndex + postsPerPage;
       const paginatedData = posts.slice(startIndex, endIndex);
@@ -211,7 +278,6 @@
         </div>
       `).join("");
 
-      // Render pagination UI layout elements
       const totalPages = Math.ceil(posts.length / postsPerPage);
       if (totalPages <= 1) {
         pagContainer.innerHTML = "";
@@ -231,7 +297,6 @@
     }
 
     function showDetail(postId) {
-      // Hardware back lock: push tracking ID token block to browser history queue
       history.pushState({ page: "detail", postId: postId }, "", "#detail-" + postId);
       renderDetailPage(postId);
     }
@@ -263,9 +328,9 @@
         <div class="episodes">
           <h3>EPISODE LIST</h3>
           <div class="episodes-grid">
-            \${episodes.map(ep => \`
-              <button onclick="handleEpisode('\${post.id}', '\${post.name.replace(/'/g, "\\\\'")}', '\${ep.id}', '\${ep.episode_label.replace(/'/g, "\\\\'")}')">\${ep.episode_label}</button>
-            \`).join("")}
+            ${episodes.map(ep => `
+              <button onclick="handleEpisode('${post.id}', '${post.name.replace(/'/g, "\\'")}', '${ep.id}', '${ep.episode_label.replace(/'/g, "\\'")}')">${ep.episode_label}</button>
+            `).join("")}
           </div>
         </div>
       `;
@@ -459,7 +524,6 @@
       document.getElementById("paginationContainer").style.display = "";
       document.getElementById("detailPage").classList.remove("active");
       
-      // Update historical address stack without exit trigger loop
       if (push) {
         history.pushState({ page: "home" }, "", window.location.pathname);
       }
@@ -467,7 +531,7 @@
     }
 
     function searchPosts() {
-      currentPage = 1; // Reset view segment pages to 1 on typing queries
+      currentPage = 1; 
       const term = document.getElementById("searchInput").value.toLowerCase();
       const filtered = allPosts.filter(p => {
         const matchName = p.name.toLowerCase().includes(term);
