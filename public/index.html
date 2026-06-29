@@ -142,7 +142,6 @@
       .header-right { 
         gap: 12px; 
       }
-      /* Compact responsive Free Premium Button on mobile */
       .header-right .nav-btn { 
         display: inline-flex;
         align-items: center;
@@ -344,19 +343,19 @@
     function handleEpisode(postId, postName, epId, epLabel) {
       showModal(`
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3 style="color: #e50914;">\${postName}</h3>
-        <p style="margin-bottom:20px; font-weight:bold; color: #fff;">\${epLabel}</p>
+        <h3 style="color: #e50914;">${postName}</h3>
+        <p style="margin-bottom:20px; font-weight:bold; color: #fff;">${epLabel}</p>
         
-        <button onclick="solveShortener('\${epId}', '\${postName.replace(/'/g, "\\\\'")}', '\${epLabel.replace(/'/g, "\\\\'")}')"><i class="fa-solid fa-link"></i> Solve Shortener Download</button>
-        <button onclick="openPlayerPrompt('\${postId}', '\${postName.replace(/'/g, "\\\\'")}', '\${epId}', '\${epLabel.replace(/'/g, "\\\\'")}')" style="background:#00b359;"><i class="fa-solid fa-play"></i> Play Video (Password Protected)</button>
-        <button class="secondary-btn" onclick="checkPremiumOption('\${postId}', '\${postName.replace(/'/g, "\\\\'")}', '\${epId}', '\${epLabel.replace(/'/g, "\\\\'")}')"><i class="fa-solid fa-user-shield"></i> Premium Login Direct Link</button>
+        <button onclick="solveShortener('${epId}', '${postName.replace(/'/g, "\\'")}', '${epLabel.replace(/'/g, "\\'")}')"><i class="fa-solid fa-link"></i> Solve Shortener Download</button>
+        <button onclick="openPlayerPrompt('${postId}', '${postName.replace(/'/g, "\\'")}', '${epId}', '${epLabel.replace(/'/g, "\\'")}')" style="background:#00b359;"><i class="fa-solid fa-play"></i> Play Video (Password Protected)</button>
+        <button class="secondary-btn" onclick="checkPremiumOption('${postId}', '${postName.replace(/'/g, "\\'")}', '${epId}', '${epLabel.replace(/'/g, "\\'")}')"><i class="fa-solid fa-user-shield"></i> Premium Login Direct Link</button>
       `);
     }
 
     async function solveShortener(epId, postName, epLabel) {
       showModal(`<h3>Shortening Link...</h3><p>Please wait, bypassing short link route...</p>`);
       try {
-        const res = await fetch(`/api/shorten?ep_id=\${encodeURIComponent(epId)}&post_name=\${encodeURIComponent(postName)}&ep_label=\${encodeURIComponent(epLabel)}`);
+        const res = await fetch(`/api/shorten?ep_id=${encodeURIComponent(epId)}&post_name=${encodeURIComponent(postName)}&ep_label=${encodeURIComponent(epLabel)}`);
         const data = await res.json();
         
         if (data.error) {
@@ -381,7 +380,7 @@
         <h3>Watch Stream Setup</h3>
         <p>Enter the Global Streaming Password to play video</p>
         <input type="text" id="streamPassInput" placeholder="Password paste karein...">
-        <button onclick="verifyAndStream('\${postId}', '\${postName.replace(/'/g, "\\\\'")}', '\${epId}', '\${epLabel.replace(/'/g, "\\\\'")}')">Validate & Stream Video</button>
+        <button onclick="verifyAndStream('${postId}', '${postName.replace(/'/g, "\\'")}', '${epId}', '${epLabel.replace(/'/g, "\\'")}')">Validate & Stream Video</button>
       `);
     }
 
@@ -403,7 +402,7 @@
         
         if (data.success && data.token) {
           closeModal();
-          const playerUrl = `/play-stream?t=\${data.token}&title=\${encodeURIComponent(postName + ' - ' + epLabel)}`;
+          const playerUrl = `/play-stream?t=${data.token}&title=${encodeURIComponent(postName + ' - ' + epLabel)}`;
           window.open(playerUrl, "_blank");
         } else {
           alert(data.error || "Streaming password galat hai!");
@@ -454,7 +453,7 @@
         <p>Direct login via registered Gmail ID & Password</p>
         <input type="email" id="pUser" placeholder="Enter Gmail ID">
         <input type="password" id="pPass" placeholder="Enter Password">
-        <button onclick="verifyPremium('\${postId}', '\${postName.replace(/'/g, "\\\\'")}', '\${epId}', '\${epLabel.replace(/'/g, "\\\\'")}')">Verify & Bypass Direct Link</button>
+        <button onclick="verifyPremium('${postId}', '${postName.replace(/'/g, "\\'")}', '${epId}', '${epLabel.replace(/'/g, "\\'")}')">Verify & Bypass Direct Link</button>
       `);
     }
 
@@ -503,7 +502,7 @@
       const message = encodeURIComponent(`Hello Admin, Main premium request submit kar raha hoon.\nGmail: ${email}\nPassword: ${pass}\nKindly use this to activate 28 Days Premium for me.`);
       const tgLink = settings.group_link || settings.channel_link || "https://t.me";
       alert("Aapka detail secure format me prepare ho gaya hai. Telegram par message bhejkar premium activate karayein!");
-      window.open(`\${tgLink}?text=\${message}`, "_blank");
+      window.open(`${tgLink}?text=${message}`, "_blank");
       closeModal();
     }
 
@@ -554,7 +553,7 @@
           <span class="close-modal" onclick="closeModal()">&times;</span>
           <h3 style="margin-bottom:15px;">Categories</h3>
           <div style="display:flex; flex-direction:column; gap:10px;">
-            \${categories.map(cat => \`<button style="margin: 4px 0;" onclick="filterByCategory('\${cat}')">\${cat}</button>\`).join("")}
+            ${categories.map(cat => `<button style="margin: 4px 0;" onclick="filterByCategory('${cat}')">${cat}</button>`).join("")}
           </div>
         `);
       } else if (type === "genre") {
@@ -564,7 +563,7 @@
           <span class="close-modal" onclick="closeModal()">&times;</span>
           <h3 style="margin-bottom:15px;">Genres</h3>
           <div style="display:flex; flex-direction:column; gap:10px; max-height:250px; overflow-y:auto; padding-right:5px;">
-            \${uniqueGenres.map(g => \`<button style="margin: 4px 0;" onclick="filterByGenre('\${g}')">\${g}</button>\`).join("")}
+            ${uniqueGenres.map(g => `<button style="margin: 4px 0;" onclick="filterByGenre('${g}')">${g}</button>`).join("")}
           </div>
         `);
       } else if (type === "az") {
@@ -573,7 +572,7 @@
           <span class="close-modal" onclick="closeModal()">&times;</span>
           <h3 style="margin-bottom:15px;">A2Z Filter</h3>
           <div style="display:grid; grid-template-columns: repeat(6, 1fr); gap:8px;">
-            \${letters.map(l => \`<button style="width:100%; margin:0; padding:10px 0;" onclick="filterByLetter('\${l}')">\${l}</button>\`).join("")}
+            ${letters.map(l => `<button style="width:100%; margin:0; padding:10px 0;" onclick="filterByLetter('${l}')">${l}</button>`).join("")}
           </div>
         `);
       }
@@ -582,24 +581,25 @@
     function filterByCategory(cat) {
       closeModal();
       currentPage = 1;
-      document.getElementById("gridTitle").innerHTML = `Category: <span>\${cat}</span>`;
+      document.getElementById("gridTitle").innerHTML = `Category: <span>${cat}</span>`;
       renderPosts(allPosts.filter(p => p.category === cat));
     }
 
     function filterByGenre(genre) {
       closeModal();
       currentPage = 1;
-      document.getElementById("gridTitle").innerHTML = `Genre: <span>\${genre}</span>`;
+      document.getElementById("gridTitle").innerHTML = `Genre: <span>${genre}</span>`;
       renderPosts(allPosts.filter(p => parseGenres(p.genres).some(g => g.toLowerCase() === genre.toLowerCase())));
     }
 
     function filterByLetter(letter) {
       closeModal();
       currentPage = 1;
-      document.getElementById("gridTitle").innerHTML = `Starting Letter: <span>\${letter}</span>`;
+      document.getElementById("gridTitle").innerHTML = `Starting Letter: <span>${letter}</span>`;
       renderPosts(allPosts.filter(p => p.name.toUpperCase().startsWith(letter)));
     }
 
+    // Direct fix to make home navigation behave correctly on click
     function showAllPosts() {
       toggleSidebar();
       currentPage = 1;
