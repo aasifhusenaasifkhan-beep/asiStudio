@@ -356,6 +356,7 @@ router.get("/play-stream", (req, res) => {
   const videoTitle = title ? decodeURIComponent(title) : "Anime Streaming";
   const isEmbed = originalUrl.includes("embed") || originalUrl.includes("/e/") || originalUrl.includes("dood") || originalUrl.includes("streamwish") || originalUrl.includes("filemoon") || originalUrl.includes("streamtape") || originalUrl.includes("mixdrop");
 
+  // Unescaped dynamic HTML response variables for pure player iframe embedding setup:
   res.send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -382,13 +383,13 @@ router.get("/play-stream", (req, res) => {
           <span class="title">${videoTitle}</span>
         </div>
         <div class="player-wrapper">
-          \${isEmbed ? \`
-            <iframe src="\${originalUrl}" allowfullscreen="true" scrolling="no" allow="autoplay; encrypted-media"></iframe>
-          \` : \`
+          ${isEmbed ? `
+            <iframe src="${originalUrl}" allowfullscreen="true" scrolling="no" allow="autoplay; encrypted-media"></iframe>
+          ` : `
             <video controls autoplay>
-              <source src="\${originalUrl}" type="video/mp4">
+              <source src="${originalUrl}" type="video/mp4">
             </video>
-          \`}
+          `}
         </div>
       </div>
     </body>
@@ -424,7 +425,6 @@ router.post("/premium-login", async (req, res) => {
   }
 });
 
-// Premium multi-device detect system and automatic user profile destroy block
 router.post("/premium-bypass", async (req, res) => {
   const { username, session_token, post_name, ep_label, ep_id } = req.body;
   if (!username || !session_token) return res.status(401).json({ error: "Aap logged in nahi hain!" });
@@ -440,7 +440,6 @@ router.post("/premium-bypass", async (req, res) => {
       return res.status(401).json({ error: "Premium trial limit expire ho chuki hai!" });
     }
 
-    // Double login system trigger: Agat token mismatch hua, toh database se user profile destroy karke dono ko terminate karenge
     if (user.session_token !== session_token) {
       await supabase.from("premium_users").delete().eq("id", user.id);
       return res.status(403).json({ 
